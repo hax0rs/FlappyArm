@@ -13,7 +13,7 @@
                 var socket = io.connect('http://{{ ip }}:5000');
 
                 function update_value (value) {
-                    socket.emit('json' ,{"id":{{ controllerID }}, "value":value});
+                    socket.emit('json' ,{"id":{{ controllerID }}+1, "value":value});
                 };
 
                 $("#slider").slider({
@@ -35,7 +35,7 @@
     <body>
         {% if controllerID %}
         <h1>Hello {{ controllerID }} at {{ ip }}!</h1>
-        <img src="/static/img/{{ controllerID }}.jpg">
+        <img src="/static/img/{{ controllerID }}.png">
         This is the body of index.html which will ideally be the
         frontend of the application.
 <p>Your slider has a value of <span id="slider-value"></span></p>
