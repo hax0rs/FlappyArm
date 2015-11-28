@@ -11,8 +11,6 @@ script_path = os.path.abspath('external_test_script.py')
 app = Flask(__name__, static_folder="static")
 socketio = SocketIO(app)
 
-test_list = []
-
 # Connect to Arm
 arm = ArmInterface()
 arm.begin_connection()
