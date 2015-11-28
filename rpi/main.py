@@ -1,10 +1,12 @@
 import argparse
 import socket as sk
 import threading
+import pigpio as pg
 from time import sleep
-# import pigpio as pg
 
 NETWORK_CONFIG = "network_config"
+
+PI = pg.pi()
 
 def main():
     parser = argparse.ArgumentParser(description='Begin the arm controller')
@@ -28,10 +30,12 @@ class Client(object):
                 print("Trying again...")
 
         self.sock.sendall("Hello, coming in from the Arm Pi".encode('utf-8'))
-        self.begin_command_loop()
 
         self.network_thread = NetworkThread(self)
         self.servo_writer = ServoWriter(self.network_thread.lock)
+
+        self.network_thread.start()
+        self.servo_writer.control_loop()
 
     def update_net_settings(self, usr_args):
         try:
@@ -63,27 +67,42 @@ class NetworkThread(threading.Thread):
     def __init__(self, parent):
         super().__init__()
         self.parent = parent
-
         self.lock = threading.Lock()
 
     def run(self):
         print("Network connection loop initiated on auxiliary thread")
 
         while True:
-            message = self.parent.sock.recv(1024).decode('utf-8')
-            if message != "reset":
-                self.lock.acquire()
-                
+            message = self.parent.sock.recv(1024)
+            self.lock.acquire()
+            self.parent.servo_writer.queue.append(message)
+            self.lock.release()
+
 
 class ServoWriter(object):
     def __init__(self, lock):
         self.queue = []
         self._queue = []
 
+        self.lock = lock
 
+    def control_loop(self):
+        while True:
+            self.lock.acquire()
+            if self.queue != []:
+                self._queue.extend(self.queue)
+                self.queue = []
+                self.lock.release()
+            else:
+                self.lock.release()
+                sleep(0.005)
+
+            for cmd in self._queue:
+                cmd = cmd.decode('utf-8')
+                pin, pulse = [int(x) for x in cmd.split("_")]
+                PI.set_servo_pulsewidth(pin, pulse)
+            self._queue = []
 
 
 if __name__ == '__main__':
     main()
-
-
