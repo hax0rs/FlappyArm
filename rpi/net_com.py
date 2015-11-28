@@ -33,7 +33,7 @@ class Client(object):
                 sleep(1)
                 print("Trying again...")
 
-        self.sendall("Hello, coming in from the Arm Pi".encode('utf-8'))
+        self.sock.sendall("Hello, coming in from the Arm Pi".encode('utf-8'))
 
         while True:
             print(self.sock.recv(1024).decode('utf-8'))

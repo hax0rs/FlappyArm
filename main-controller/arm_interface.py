@@ -68,7 +68,9 @@ class ServerThread(threading.Thread):
 
             for message in self._queue:
                 # send the message
-                self.conn.sendall((str(message[0]) + str(message[1])).encode('utf-8'))
+                self.conn.sendall((str(message[0]) + "_" + str(message[1])).encode('utf-8'))
+            # empty the private queue
+            self._queue = []
 
         self.sock.close()
         print("pi thread exit")
@@ -84,19 +86,19 @@ class Kinematics(object):
         for poi in self.servo_poi:
             servo_set = []
             for poi_low, poi_mid, poi_high in zip(poi[1], poi[2], poi[3]):
-                low = (poi_low-poi_mid)/100
+                low = (poi_mid-poi_low)/100
                 high = (poi_high-poi_mid)/100
-                servo_set.append((low, high))
+                servo_set.append((poi_mid, low, high))
             self.multipliers.append(servo_set)
-        self.pins = self.servo_poi[:][0]
+        self.pins = [x[0] for x in self.servo_poi]
 
     def get_servo(self, num, percentage):
-        i = 1
+        i = 2
         if percentage <= 0:
-            i = 0
+            i = 1
         command = []
         for pin, mult in zip(self.pins[num], self.multipliers[num]):
-            command.append((pin, percentage * mult[i]))
+            command.append((pin, mult[0] + round(percentage * mult[i])))
         return command
 
     @staticmethod
