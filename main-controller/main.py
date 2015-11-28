@@ -20,28 +20,21 @@ def root(controllerID=None):
     return (render_template('control.html', ip=HOST_IP, controllerID=controllerID))
 
 
-@socketio.on('my event')
-def handle_my_custom_event(message):
-    print (message)
-    # os.system("say youre accessing this in browser")
-
-
 @socketio.on('json')
 def handle_json(json):
-    print ("handled")
+    """ Handles the values received from the slider.
+    :json: Dictionary - {'id':servoID,'value':value(-100,100)}
+    :return: None
+    """
     #Connect to Arm
     # arm = ArmInterface()
     # arm.begin_connection()
 
     #Controlling the arm
-
-
     # arm.set_servo(json[id],json[value])
 
-    print ("This is" + str(json['value']))
-    # print(json)
-    print("here")
-    # os.system("say youre accessing this in browser")
+    print ("This is controller: " + str(json['id']))
+    print ("The value for this motor is:  " + str(json['value']))
 
 
 @app.route("/leaderboard/")
