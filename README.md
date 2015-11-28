@@ -2,7 +2,7 @@
 
 ## About
 
-## Dependancies / Requirements
+## Dependencies / Requirements
 
 * Python 3
 * Flask
