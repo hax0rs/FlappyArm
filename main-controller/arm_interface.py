@@ -5,12 +5,13 @@ from time import sleep
 
 ARM_CONFIG = "arm_config"
 HOST = ""
-PORT = "50007"
+PORT = 50008
 
 
 class ArmInterface(object):
     def __init__(self):
         self.server = ServerThread(self)
+        self.kinematics = Kinematics(self)
 
         self.position = [0 for x in range(len(Kinematics.load_arm_config()))]
 
@@ -23,10 +24,11 @@ class ArmInterface(object):
         elif percentage < -100:
             percentage = -100
 
-        pulse = Kinematics.percent_to_pulse(num, percentage)
+        servo_command = self.kinematics.get_servo(num, percentage)
 
         self.server.lock.acquire()
-        self.server.queue.append((num, pulse))
+        self.server.queue.extend(servo_command)
+        print(self.server.queue)
         self.server.lock.release()
 
     def reset_arm(self):
@@ -49,7 +51,7 @@ class ServerThread(threading.Thread):
         self.sock.listen(1)
         print("Attempting connection to pi on separate thread...")
         self.conn, addr = self.sock.accept()
-        print("Connected by", addr)
+        print("Connected on", addr)
         data = self.conn.recv(1024)
         print(data.decode('utf-8'))
 
@@ -65,7 +67,8 @@ class ServerThread(threading.Thread):
                 continue
 
             for message in self._queue:
-                print(message)  # send the message
+                # send the message
+                self.conn.sendall((str(message[0]) + str(message[1])).encode('utf-8'))
 
         self.sock.close()
         print("pi thread exit")
@@ -79,16 +82,22 @@ class Kinematics(object):
         self.servo_poi = self.load_arm_config()
         self.multipliers = []
         for poi in self.servo_poi:
-            low = (poi[1]-poi[2])/100
-            high = (poi[3]-poi[2])/100
-            self.multipliers.append((low, high))
+            servo_set = []
+            for poi_low, poi_mid, poi_high in zip(poi[1], poi[2], poi[3]):
+                low = (poi_low-poi_mid)/100
+                high = (poi_high-poi_mid)/100
+                servo_set.append((low, high))
+            self.multipliers.append(servo_set)
+        self.pins = self.servo_poi[:][0]
 
-    def percent_to_pulse(self, num, percentage):
+    def get_servo(self, num, percentage):
+        i = 1
         if percentage <= 0:
-            pulse = percentage * self.multipliers[num][0]
-        else:
-            pulse = percentage * self.multipliers[num][1]
-        return pulse
+            i = 0
+        command = []
+        for pin, mult in zip(self.pins[num], self.multipliers[num]):
+            command.append((pin, percentage * mult[i]))
+        return command
 
     @staticmethod
     def load_arm_config():
@@ -105,7 +114,7 @@ class Kinematics(object):
             if line.startswith("#"):
                 continue
             else:
-                split_line = [int(x) for x in line.split(" ") if x != ""]
+                split_line = [eval(x) for x in line.split(" ") if x != ""]
                 data.append(split_line[1:])
         settings_file.close()
         return data
