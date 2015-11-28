@@ -9,29 +9,26 @@
         <link rel="stylesheet" type="text/css" href="/static/css/main.css">
         <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
         <script type="text/javascript" charset="utf-8">
-           $(document).ready(function(){
-             var socket = io.connect('http://192.168.0.99:5000');
-                $("#button").click(function() {
-                    console.log("here");
-                    // socket.emit('my event' ,"from frontend");
-                    socket.emit('json' ,{"id":1, "value":"swagger"});
+            $(document).ready(function(){
+                var socket = io.connect('http://{{ ip }}:5000');
 
-                });
+                function update_value (value) {
+                    socket.emit('json' ,{"id":{{ controllerID }}, "value":value});
+                };
 
                 $("#slider").slider({
-            value:0,
-            min: -100,
-            max: 100,
-            step: 1,
-            slide: function( event, ui ) {
-                $( "#slider-value" ).html( ui.value );
-            }
-        });
+                    value:0,
+                    min: -100,
+                    max: 100,
+                    step: 1
+                });
 
-$('#slider').slider({
-    change: function(event, ui) { alert(ui.value); } 
-})
-
+                $('#slider').slider({
+                    slide: function(event, ui) { 
+                        update_value(ui.value);
+                        $('#slider-value').html(ui.value);
+                    }
+                });
             });
         </script>
     </head>
@@ -41,7 +38,7 @@ $('#slider').slider({
         <img src="/static/img/{{ controllerID }}.jpg">
         This is the body of index.html which will ideally be the
         frontend of the application.
-        <button type="button" id='button'>Send Message</button>
+<p>Your slider has a value of <span id="slider-value"></span></p>
         <div id="slider"></div>
         {% else %}
         <h1>Sorry, please wait for the next game.</h1>
