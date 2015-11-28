@@ -5,7 +5,7 @@ from time import sleep
 
 ARM_CONFIG = "arm_config"
 HOST = ""
-PORT = 50008
+PORT = 12345
 
 
 class ArmInterface(object):
@@ -33,7 +33,6 @@ class ArmInterface(object):
 
         self.server.lock.acquire()
         self.server.queue.extend(servo_command)
-        print(self.server.queue)
         self.server.lock.release()
 
     def reset_arm(self):
@@ -47,6 +46,7 @@ class ServerThread(threading.Thread):
         self.lock = threading.Lock()
 
         self.sock = sk.socket(sk.AF_INET, sk.SOCK_STREAM)
+        self.sock.setsockopt(sk.SOL_SOCKET, sk.SO_REUSEADDR, 1)
         self.sock.bind((HOST, PORT))
 
         self.queue = []  # public queue, need lock to access this
@@ -73,7 +73,7 @@ class ServerThread(threading.Thread):
 
             for message in self._queue:
                 # send the message
-                self.conn.sendall((str(message[0]) + "_" + str(message[1])).encode('utf-8'))
+                self.conn.sendall((str(message[0]) + "_" + str(message[1]) + "|").encode('utf-8'))
             # empty the private queue
             self._queue = []
 

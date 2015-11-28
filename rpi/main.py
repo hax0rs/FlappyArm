@@ -99,8 +99,11 @@ class ServoWriter(object):
 
             for cmd in self._queue:
                 cmd = cmd.decode('utf-8')
-                pin, pulse = [int(x) for x in cmd.split("_")]
-                PI.set_servo_pulsewidth(pin, pulse)
+                cmd = [x for x in cmd.split("|") if x != ""]
+                for command in cmd:
+                    pin, pulse = [int(x) for x in command.split("_")]
+                    PI.set_servo_pulsewidth(pin, pulse)
+                    print("Servo {0}: {1}".format(pin, pulse))
             self._queue = []
 
 
