@@ -1,32 +1,46 @@
-from flask import Flask, session, redirect, url_for, escape, request
+from flask import Flask, session, redirect, escape, request, render_template
 from flask_socketio import SocketIO
-import subprocess
+# import subprocess
 import os
+# from arm_interface import ArmInterface
 
 # Global Variables and Declarations
 HOST_IP = "192.168.0.99"
 script_path = os.path.abspath('external_test_script.py')
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static")
 socketio = SocketIO(app)
 
 test_list = []
 
 
 @app.route("/")
-@app.route("/<controller>")
-def root(controller=None):
-    if (controller is None):
-        return ("Sorry, you cannot play.")
-    else:
-        os.system("say hello world")
-        subprocess.call(script_path)
-        return ("Hello Controller" + str(controller) + "!")
+@app.route("/<int:controllerID>")
+def root(controllerID=None):
+    return (render_template('control.html', ip=HOST_IP, controllerID=controllerID))
 
 
 @socketio.on('my event')
 def handle_my_custom_event(message):
     print (message)
+    # os.system("say youre accessing this in browser")
+
+
+@socketio.on('json')
+def handle_json(json):
+    print ("handled")
+    #Connect to Arm
+    # arm = ArmInterface()
+    # arm.begin_connection()
+
+    #Controlling the arm
+
+
+    # arm.set_servo(json[id],json[value])
+
+    print ("This is" + str(json['value']))
+    # print(json)
+    print("here")
     # os.system("say youre accessing this in browser")
 
 
