@@ -2,6 +2,7 @@ from flask import Flask, session, redirect, escape, request, render_template
 from flask_socketio import SocketIO
 # import subprocess
 import os
+
 # from arm_interface import ArmInterface
 
 # Global Variables and Declarations
@@ -10,8 +11,6 @@ script_path = os.path.abspath('external_test_script.py')
 
 app = Flask(__name__, static_folder="static")
 socketio = SocketIO(app)
-
-test_list = []
 
 
 @app.route("/")
