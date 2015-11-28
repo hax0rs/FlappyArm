@@ -1,6 +1,7 @@
 import threading
 import socket as sk
 import os
+from time import sleep
 
 ARM_CONFIG = "arm_config"
 HOST = ""
@@ -10,19 +11,25 @@ PORT = "50007"
 class ArmInterface(object):
     def __init__(self):
         self.server = ServerThread(self)
-        self.kin = KinematicsThread(self)
 
-        self.position = [0 for x in range(len(self.kin.load_arm_config()))]
+        self.position = [0 for x in range(len(Kinematics.load_arm_config()))]
 
-    def begin_connection():
+    def begin_connection(self):
         self.server.start()
 
-    def set_servo(num, percentage):
+    def set_servo(self, num, percentage):
+        if percentage > 100:
+            percentage = 100
+        elif percentage < -100:
+            percentage = -100
+
+        pulse = Kinematics.percent_to_pulse(num, percentage)
+
         self.server.lock.acquire()
-        self.server.queue.append((num, percentage))
+        self.server.queue.append((num, pulse))
         self.server.lock.release()
 
-    def reset_arm():
+    def reset_arm(self):
         pass
 
 
@@ -50,8 +57,12 @@ class ServerThread(threading.Thread):
             self.lock.acquire()
             if self.queue != []:
                 self._queue.extend(self.queue)
-            self.queue = []
-            self.lock.release()
+                self.queue = []
+                self.lock.release()
+            else:
+                self.lock.release()
+                sleep(0.005)
+                continue
 
             for message in self._queue:
                 print(message)  # send the message
@@ -60,17 +71,24 @@ class ServerThread(threading.Thread):
         print("pi thread exit")
 
 
-class KinematicsThread(threading.Thread):
+class Kinematics(object):
     """ Used to check the arm is not performing illegal moves
     """
-    def __init__(self, parent):
-        super().__init__()
-        self.parent = parent
-        self.lock = threading.Lock()
-        self.servo_poi = self.load_arm_config()
 
-    def run(self):
-        print("kin thread ran")
+    def __init__(self, parent):
+        self.servo_poi = self.load_arm_config()
+        self.multipliers = []
+        for poi in self.servo_poi:
+            low = (poi[1]-poi[2])/100
+            high = (poi[3]-poi[2])/100
+            self.multipliers.append((low, high))
+
+    def percent_to_pulse(self, num, percentage):
+        if percentage <= 0:
+            pulse = percentage * self.multipliers[num][0]
+        else:
+            pulse = percentage * self.multipliers[num][1]
+        return pulse
 
     @staticmethod
     def load_arm_config():
