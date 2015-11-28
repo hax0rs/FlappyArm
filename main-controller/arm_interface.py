@@ -24,6 +24,11 @@ class ArmInterface(object):
         elif percentage < -100:
             percentage = -100
 
+        if num < 0:
+            num = 0
+        elif num > 6:
+            num = 6
+
         servo_command = self.kinematics.get_servo(num, percentage)
 
         self.server.lock.acquire()
@@ -77,7 +82,8 @@ class ServerThread(threading.Thread):
 
 
 class Kinematics(object):
-    """ Used to check the arm is not performing illegal moves
+    """ Used to check the arm is not performing illegal moves and convert a
+    percentage to angle.
     """
 
     def __init__(self, parent):
