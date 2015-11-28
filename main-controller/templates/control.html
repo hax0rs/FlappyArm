@@ -1,0 +1,51 @@
+<!doctype html>
+    <head>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+
+        <title>Flappy Arm</title>
+        <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css">
+        <script type="text/javascript" charset="utf-8">
+            $(document).ready(function(){
+                var socket = io.connect('http://{{ ip }}:5000');
+
+                function update_value (value) {
+                    socket.emit('json' ,{"id":{{ controllerID }}, "value":value});
+                };
+
+                $("#slider").slider({
+                    value:0,
+                    min: -100,
+                    max: 100,
+                    step: 1
+                });
+
+                $('#slider').slider({
+                    slide: function(event, ui) { 
+                        update_value(ui.value);
+                        $('#slider-value').html(ui.value);
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        {% if controllerID %}
+        <h1>Hello {{ controllerID }} at {{ ip }}!</h1>
+        <img src="/static/img/{{ controllerID }}.jpg">
+        This is the body of index.html which will ideally be the
+        frontend of the application.
+<p>Your slider has a value of <span id="slider-value"></span></p>
+        <div id="slider"></div>
+        {% else %}
+        <h1>Sorry, please wait for the next game.</h1>
+        {% endif %}
+    </body>
+</html>
+
+
+
+</head>
