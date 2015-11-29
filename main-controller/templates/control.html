@@ -1,5 +1,6 @@
 <!doctype html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
         <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
@@ -9,7 +10,6 @@
         <script src="/static/bower_components/webcomponentsjs/webcomponents.min.js"></script>     
 
         <link rel="import" href="/static/bower_components/paper-slider/paper-slider.html">
-
 
         <title>Flappy Arm</title>
         <link rel="stylesheet" type="text/css" href="/static/css/main.css">
@@ -22,34 +22,54 @@
                     socket.emit('json' ,{"id":{{ controllerID }}-1, "value":value});
                 };
 
-                $("#slider").slider({
-                    value:0,
-                    min: -100,
-                    max: 100,
-                    step: 1
-                });
 
-                $('#slider').slider({
-                    slide: function(event, ui) { 
-                        update_value(ui.value);
-                        $('#slider-value').html(ui.value);
-                    }
-                });
+
+$(".slider").on("input", function(){
+    console.log(this.value)
+    update_value(this.value);
+
+});
+
             });
         </script>
     </head>
+
+
     <body>
         {% if controllerID %}
-        <h1>Hello {{ controllerID }} at {{ ip }}!</h1>
+        
+        <header class="header">
+            <h1>Hello {{ controllerID }}</h1>
+        </header>
+
+<div class="main">
+
+
         <img src="/static/img/{{ controllerID }}.png">
-        This is the body of index.html which will ideally be the
-        frontend of the application.
-<p>Your slider has a value of <span id="slider-value"></span></p>
-        <div id="slider"></div>
-        <paper-slider min="10" max="200" value="110"></paper-slider>
+
+<!-- <p>Your slider has a value of </p> -->
+
+
+
+
+
+<input class="slider" type="range" min="-100" max="100" step="1" value="0" name="page" />
+
+
+</div>
+
+
+
+
+<footer class="footer">
+UQ hax0rs<br>
+{{ ip }}
+</footer>
         {% else %}
         <h1>Sorry, please wait for the next game.</h1>
         {% endif %}
+
+
     </body>
 </html>
 

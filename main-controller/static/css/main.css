@@ -1,3 +1,46 @@
+*{
+    margin: 0px;
+    font-family: arial;
+}
+
 body{
+    background-color: #412135;
+}
+
+
+.yellow{
+    color: #FFE165;
     background-color: #FFE165;
+}
+
+.tangerine{
+    color: #de4242;
+    background-color: #de4242;
+}
+
+
+input{
+    width: 90%;
+}
+
+
+.header{
+     background-color: #de4242;
+     border-bottom: 2px solid #412135; 
+     min-height: 80px;  
+     text-align: center;
+}
+
+.main{
+    background-color: #FFE165;
+    padding: 10px;
+    text-align: center;
+}
+
+.footer{
+    background-color: #412135;
+    color: #84243B;
+    min-height: 80px;
+    padding: 15px;
+    text-align: center;
 }

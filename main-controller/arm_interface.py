@@ -13,12 +13,14 @@ class ArmInterface(object):
         self.server = ServerThread(self)
         self.kinematics = Kinematics(self)
 
-        self.position = [0 for x in range(len(Kinematics.load_arm_config()))]
+        # self.position = [0 for x in range(len(Kinematics.load_arm_config()))]
 
     def begin_connection(self):
         self.server.start()
 
     def set_servo(self, num, percentage):
+        percentage = int(percentage)
+        num = int(num)
         if percentage > 100:
             percentage = 100
         elif percentage < -100:
@@ -35,7 +37,7 @@ class ArmInterface(object):
     def reset_arm(self):
         servo_commands = []
         for i in range(len(Kinematics.load_arm_config())):
-            servo_commands.extend(get_servo(i, 0))
+            servo_commands.extend(self.kinematics.get_servo(i, 0))
 
         self._send_command(servo_commands)
 
@@ -44,8 +46,8 @@ class ArmInterface(object):
         self.server.queue.extend(command)
         self.server.lock.release()
 
-        for num, percentage in command:
-            self.position[num] = percentage
+        # for num, percentage in command:
+        #     self.position[num] = percentage
 
     def get_state(self):
         return self.position
