@@ -72,6 +72,8 @@ class ServerThread(threading.Thread):
         data = self.conn.recv(1024)
         print(data.decode('utf-8'))
 
+        self.parent.reset_arm()
+
         while True:
             self.lock.acquire()
             if self.queue != []:
