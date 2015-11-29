@@ -29,14 +29,26 @@ class ArmInterface(object):
         elif num > 6:
             num = 6
 
-        servo_command = self.kinematics.get_servo(num, percentage)
+        self._send_command(self.kinematics.get_servo(num, percentage))
 
-        self.server.lock.acquire()
-        self.server.queue.extend(servo_command)
-        self.server.lock.release()
 
     def reset_arm(self):
-        pass
+        servo_commands = []
+        for i in range(len(Kinematics.load_arm_config())):
+            servo_commands.extend(get_servo(i, 0))
+
+        self._send_command(servo_commands)
+
+    def _send_command(self, command):
+        self.server.lock.acquire()
+        self.server.queue.extend(command)
+        self.server.lock.release()
+
+        for num, percentage in command:
+            self.position[num] = percentage
+
+    def get_state(self):
+        return self.position
 
 
 class ServerThread(threading.Thread):
@@ -59,6 +71,8 @@ class ServerThread(threading.Thread):
         print("Connected on", addr)
         data = self.conn.recv(1024)
         print(data.decode('utf-8'))
+
+        self.parent.reset_arm()
 
         while True:
             self.lock.acquire()
