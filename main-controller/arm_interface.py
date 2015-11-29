@@ -36,7 +36,13 @@ class ArmInterface(object):
         self.server.lock.release()
 
     def reset_arm(self):
-        pass
+        servo_commands = []
+        for i in range(len(Kinematics.load_arm_config())):
+            servo_commands.extend(i, 0)
+
+        self.server.lock.acquire()
+        self.server.queue.extend(servo_commands)
+        self.server.lock.release()
 
 
 class ServerThread(threading.Thread):
