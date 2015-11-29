@@ -1,0 +1,16 @@
+{
+  "name": "FlappyArm",
+  "version": "0.0.1",
+  "homepage": "https://github.com/hax0rs/FlappyArm",
+  "authors": [
+    "UQ hax0rs"
+  ],
+  "description": "A flappy arm!",
+  "main": "../main.py",
+  "moduleType": [],
+  "license": "MIT",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.0",
+    "paper-slider": "PolymerElements/paper-slider#~1.0.8"
+  }
+}
