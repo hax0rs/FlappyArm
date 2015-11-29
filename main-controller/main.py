@@ -5,8 +5,10 @@ import os
 from arm_interface import ArmInterface
 
 # Global Variables and Declarations
-HOST_IP = "10.0.0.70"
-script_path = os.path.abspath('external_test_script.py')
+HOST_IP = "131.181.68.177"
+
+
+script_path = os.path.abspath('external_test_script.py') 
 
 app = Flask(__name__, static_folder="static")
 socketio = SocketIO(app)
