@@ -3,6 +3,11 @@
     font-family: arial;
 }
 
+h1{
+    margin: 0;
+    font-size: 32px;
+}
+
 body{
     background-color: #412135;
 }
@@ -24,7 +29,17 @@ input{
 }
 
 
-.header{
+a{
+    text-decoration: none;
+    color: #84243B;
+}
+
+a:hover{
+    color: #8E2E45;
+}
+
+
+header{
      background-color: #de4242;
      border-bottom: 2px solid #412135; 
      min-height: 80px;  
@@ -33,14 +48,36 @@ input{
 
 .main{
     background-color: #FFE165;
-    padding: 10px;
+    padding: 15px;
+    padding-left: 25px;
     text-align: center;
 }
 
-.footer{
+footer{
     background-color: #412135;
     color: #84243B;
     min-height: 80px;
     padding: 15px;
     text-align: center;
 }
+
+
+
+
+/*Materialize Overrides*/
+input[type=range] {
+    border: 0px solid white;
+    width: calc(100% - 10px);
+    color: black;
+}
+
+
+input[type="range" i] {
+    -webkit-appearance: slider-horizontal;
+    padding: initial;
+    border: initial;
+    margin: 2px;
+    color: black;
+}
+
+

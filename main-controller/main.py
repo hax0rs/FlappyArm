@@ -1,11 +1,10 @@
+#!/usr/bin/python3
 from flask import Flask, session, redirect, escape, request, render_template
 from flask_socketio import SocketIO
-# import subprocess
 import os
 import argparse
 import sys
 from arm_interface import ArmInterface
-
 
 
 app = Flask(__name__, static_folder="static")
@@ -14,6 +13,7 @@ socketio = SocketIO(app)
 # Connect to Arm
 arm = ArmInterface()
 arm.begin_connection()
+
 
 @app.route("/")
 @app.route("/<int:controllerID>")
@@ -37,6 +37,12 @@ def handle_json(json):
 @app.route("/leaderboard/")
 def leaderboard():
     return ("<ol><li>UQ hax0rs</li></ol>")
+
+
+# Error Handlers
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 
 if __name__ == "__main__":
