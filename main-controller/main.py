@@ -20,6 +20,15 @@ def home():
     return(render_template('home.html'))
 
 
+@app.route("/about")
+def about():
+    return(render_template('about.html'))
+
+# @app.route("/play")
+# @app.route("/play/")
+# def play_menu():
+#     return ("Play menu.")
+
 @app.route("/play/<int:controllerID>")
 def root(controllerID=None):
     controller_name = {
