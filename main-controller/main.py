@@ -2,10 +2,10 @@ from flask import Flask, session, redirect, escape, request, render_template
 from flask_socketio import SocketIO
 # import subprocess
 import os
+import argparse
+import sys
 from arm_interface import ArmInterface
 
-# Global Variables and Declarations
-HOST_IP = "131.181.68.177"
 
 
 app = Flask(__name__, static_folder="static")
@@ -40,7 +40,12 @@ def leaderboard():
 
 
 if __name__ == "__main__":
-    # app.debug = True
-    app.secret_key = 'such_secret_very_secure'
-    app.run(host=HOST_IP, threaded=True)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-ip', help='The host computer IP address.')
+    arguments = parser.parse_args()
+    HOST_IP = "localhost"
+    if arguments.ip:
+        HOST_IP = str(arguments.ip)
+    # Run
+    app.run(HOST_IP, threaded=True)
     socketio.run(app)
