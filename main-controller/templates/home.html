@@ -2,7 +2,6 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
         <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 
@@ -16,45 +15,82 @@
           
 
 
-        <title>Flappy Arm</title>
-        <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+        <title>FlappyArm</title>
+        <!-- <link rel="stylesheet" type="text/css" href="/static/css/main.css"> -->
+        <link rel="stylesheet" type="text/css" href="/static/css/colors.css">
 
         <script type="text/javascript" charset="utf-8">
             $(document).ready(function(){
-                var socket = io.connect('http://{{ ip }}:5000');
 
-                function update_value (value) {
-                    socket.emit('json' ,{"id":{{ controllerID }}-1, "value":value});
-                };
-
-                $(".control_slider").on("input", function(){
-                    console.log(this.value)
-                    update_value(this.value);
-                });
+                $(".button-collapse").sideNav();
 
             });
 
-
-
         </script>
     </head>
-    <body>
-<header>
-  <nav>
-    <div class="nav-wrapper">
-      <a href="#" class="brand-logo">Logo</a>
+    <body class="offwhite">
+<!-- <header> -->
+  <nav class="deep_purple">
+    <div class="nav-wrapper container">
+      <a href="#" class="brand-logo">FlappyArm</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="sass.html">Sass</a></li>
-        <li><a href="badges.html">Components</a></li>
-        <li><a href="collapsible.html">JavaScript</a></li>
+        <li><a href="/play/">Play</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
   </nav>
-</header>
+<!-- </header> -->
 
+<div class="main">
 <h1>This is home</h1>
-<footer>
-    <a href="https://github.com/hax0rs">UQ Hax0rs</a>
-</footer>
+</div>
+
+<div class="offwhite">
+<br><br><br><br><br>
+</div>
+
+
+
+<footer class="page-footer plum">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">Contribute</h5>
+                <p class="grey-text text-lighten-4">
+                    FlappyArm is licensed under the MIT license. If you would
+                    like to contribute or use FlappyArm you can find it on 
+                    <a class="grey-text text-lighten-3" 
+                    href="https://github.com/hax0rs/FlappyArm">GitHub.</a>
+                </p>
+              </div>
+              <div class="col l2 s12">
+                <h5 class="white-text">Email</h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="mailto:gagalug13@gmail.com">Dragan Marjanovic</a></li>
+                  <li><a class="grey-text text-lighten-3" href="mailto:joshua.riddell11@gmail.com">Joshua Riddell</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Abhi Jagtap</a></li>
+                </ul>
+              </div>
+               <div class="col l2 offset-l1">
+                <h5 class="white-text">LinkedIn</h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="https://au.linkedin.com/in/dragan-marjanovic-3356a3103">Dragan Marjanovic</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Joshua Riddell</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Abhi Jagtap</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright deep_purple">
+            <div class="container">
+            © 2015 UQ Hax0rs
+            <a class="grey-text text-lighten-4 right" 
+            href="https://github.com/hax0rs/FlappyArm">
+                GitHub</a>
+            </div>
+          </div>
+        </footer>
 </body>
 </html>

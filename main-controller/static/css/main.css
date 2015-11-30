@@ -14,15 +14,24 @@ body{
 
 
 .yellow{
-    color: #FFE165;
-    background-color: #FFE165;
+    background-color: #FFE165 !important;
 }
 
 .tangerine{
-    color: #de4242;
-    background-color: #de4242;
+    background-color: #de4242 !important;
 }
 
+.plum{
+    background-color: #84243B !important;
+}
+
+.deep_purple{
+    background-color: #412135 !important;
+}
+
+.offwhite{
+    background-color: #FAFAFA !important;
+}
 
 input{
     width: 90%;
@@ -44,6 +53,12 @@ header{
      border-bottom: 2px solid #412135; 
      min-height: 80px;  
      text-align: center;
+}
+
+nav{
+    text-align: left;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .main{
