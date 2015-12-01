@@ -24,11 +24,10 @@
                 var socket = io.connect('http://{{ ip }}:5000');
 
                 function update_value (value) {
-                    socket.emit('json' ,{"id":{{ controllerID }}-1, "value":value});
+                    socket.emit('json' ,{"id":{{ controllerID }}, "value":value});
                 };
 
                 $(".control_slider").on("input", function(){
-                    console.log(this.value)
                     update_value(this.value);
                 });
 
@@ -42,7 +41,7 @@
 
 
     <body>
-{% if controllerID >= 1 and controllerID <= 7 %}
+{% if controllerID >= 0 and controllerID <= 6 %}
         
         <header>
             <h1>Controlling: {{ controller_name }}</h1>
@@ -69,7 +68,7 @@
 
 {% else %}
 
-<h1>Sorry, please wait for the next game.</h1>
+<h1>That control point is unavailable.</h1>
 
 {% endif %}
 

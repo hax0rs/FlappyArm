@@ -62,13 +62,13 @@ def root(controllerID=None):
 
 
     controller_name = {
-        1: "Base",
-        2: "Shoulder",
-        3: "Elbow",
-        4: "Wrist Rotation",
-        5: "Wrist",
-        6: "Pincer Rotation",
-        7: "Pincer"
+        0: "Base",
+        1: "Shoulder",
+        2: "Elbow",
+        3: "Wrist Rotation",
+        4: "Wrist",
+        5: "Pincer Rotation",
+        6: "Pincer"
     }
     if (controllerID in controller_name):
         controller_name = str(controller_name[controllerID])
