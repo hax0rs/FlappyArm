@@ -6,8 +6,8 @@ import argparse
 import sys
 from arm_interface import ArmInterface
 from flask.ext.basicauth import BasicAuth
-import uuid
-
+# import uuid
+import players
 
 app = Flask(__name__, static_folder="static")
 # Auth
@@ -22,49 +22,42 @@ socketio = SocketIO(app)
 
 global_list = {}
 
+current_players = players.Players()
+
+
 # Routing
 @app.route("/")
 def home():
     return(render_template('home.html'))
 
 
-@app.route("/about")
-def about():
-    return(render_template('about.html'))
-
 
 @app.route("/play")
 @app.route("/play/")
 def play_menu():
-    return ("Play menu.")
+    current_players.garbage_collector()
+    return (str(current_players._players))
 
 
-@app.route("/play/<int:controllerID>")
+@app.route("/play/<int:controllerID>", methods=["GET"])
 def root(controllerID=None):
+    request_ip = str(request.remote_addr)
     if 'user' in session:
-        print (session['user'])
-        print (global_list)
-        
-        if controllerID in global_list:
-            if (session['user'] == global_list[controllerID]):
-                return ("you can control")
+        if controllerID in current_players.get_players():
+            if (session['user'] == current_players.get_players()[controllerID]._cookie):
+                return ("you can control.")
             else:
                 return ("someone is already controlling")
         else:
-            a = uuid.uuid4()
-            global_list[controllerID] = a
-            session['user'] = a
-            # return ("global_list)
-            print (global_list)
-            return("you're going to control.")   
+            current_players.add_player(controllerID,players.Player(request_ip))
+            print(current_players.get_players()[controllerID]._cookie)
+            session['user']= current_players.get_players()[controllerID]._cookie
+            return ("you're going to control")            
     else:
-        a = uuid.uuid4()
-        global_list[controllerID] = a
-        session['user'] = a
-        # return ("global_list)
-        print (global_list)
-        return("you're going to control.")
-
+        current_players.add_player(controllerID, players.Player(request_ip))
+        print()
+        session['user']= current_players.get_players()[controllerID]._cookie
+        return ("you're going to control")            
 
 
 
@@ -87,16 +80,6 @@ def root(controllerID=None):
                             controller_name=controller_name))
 
 
-@app.route("/in/")
-def log_me_in():
-    session['user'] = "dragan"
-    return("should be logged now")
-
-
-
-@app.route("/sessions/")
-def get_sessions():
-    return (session['user'])
 
 
 @app.route("/leaderboard")
