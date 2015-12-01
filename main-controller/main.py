@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from flask import Flask, session, redirect, escape, request, render_template
+from flask import Flask, session, redirect, escape, request, render_template, url_for
 from flask_socketio import SocketIO
 import os
 import argparse
@@ -8,6 +8,7 @@ from arm_interface import ArmInterface
 from flask.ext.basicauth import BasicAuth
 # import uuid
 import players
+from werkzeug.routing import RequestRedirect
 
 app = Flask(__name__, static_folder="static")
 # Auth
@@ -36,28 +37,31 @@ def home():
 @app.route("/play/")
 def play_menu():
     current_players.garbage_collector()
-    return (str(current_players._players))
+    return(render_template('play.html'))
+    # return (str(current_players._players))
 
 
 @app.route("/play/<int:controllerID>", methods=["GET"])
 def root(controllerID=None):
     request_ip = str(request.remote_addr)
+    # Garbage Collection
+    current_players.garbage_collector()
     if 'user' in session:
-        if controllerID in current_players.get_players():
-            if (session['user'] == current_players.get_players()[controllerID]._cookie):
-                return ("you can control.")
+        if controllerID in current_players._players:
+            if (session['user'] == current_players._players[controllerID]._cookie):
+                # User is successfull validated
+                pass
             else:
-                return ("someone is already controlling")
+                # Someone is already controlling
+                return redirect(url_for('play_menu'))
         else:
-            current_players.add_player(controllerID,players.Player(request_ip))
-            print(current_players.get_players()[controllerID]._cookie)
-            session['user']= current_players.get_players()[controllerID]._cookie
-            return ("you're going to control")            
+            current_players.add_player(controllerID, players.Player(request_ip))
+            session['user'] = current_players._players[controllerID]._cookie
+            return redirect('play/'+str(controllerID))
     else:
         current_players.add_player(controllerID, players.Player(request_ip))
-        print()
-        session['user']= current_players.get_players()[controllerID]._cookie
-        return ("you're going to control")            
+        session['user'] = current_players._players[controllerID]._cookie
+        return redirect('play/'+str(controllerID))
 
 
 
@@ -101,11 +105,14 @@ def handle_json(json):
     :json: Dictionary - {'id':servoID,'value':value(-100,100)}
     :return: None
     """
-    # Controlling the arm
-    arm.set_servo(json['id'], json['value'])
-
-    print ("This is controller: " + str(json['id']))
-    print ("The value for this motor is:  " + str(json['value']))
+    if json['id'] in current_players._players:
+        # arm.set_servo(json['id'], json['value'])
+        current_players._players[json['id']].update_expiry()
+        print ("This is controller: " + str(json['id']))
+        print ("The value for this motor is:  " + str(json['value']))
+    else:
+        print ("You can't control anymore - sorry.")
+        return redirect(url_for('play_menu'))
 
 
 # Error Handlers
