@@ -5,9 +5,14 @@ import os
 import argparse
 import sys
 from arm_interface import ArmInterface
+from flask.ext.basicauth import BasicAuth
 
 
 app = Flask(__name__, static_folder="static")
+# Auth
+app.config['BASIC_AUTH_USERNAME'] = 'john'
+app.config['BASIC_AUTH_PASSWORD'] = 'matrix'
+basic_auth = BasicAuth(app)
 socketio = SocketIO(app)
 
 # Connect to Arm
@@ -68,6 +73,12 @@ def leaderboard():
     return ("<ol><li>UQ hax0rs</li></ol>")
 
 
+@app.route('/admin')
+@app.route('/admin/')
+@basic_auth.required
+def admin():
+    return ("Admin page.")
+
 # Error Handlers
 @app.errorhandler(404)
 def page_not_found(e):
@@ -82,5 +93,6 @@ if __name__ == "__main__":
     if arguments.ip:
         HOST_IP = str(arguments.ip)
     # Run
+
     app.run(HOST_IP, threaded=True)
     socketio.run(app)
