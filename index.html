@@ -32,6 +32,10 @@
                 padding: 15px;
                 min-height: 250px;
             }
+
+            .youtube_video{
+                text-align: center;
+            }
         </style>
     </head>
     <body class="offwhite">
@@ -50,35 +54,78 @@
 <!-- </header> -->
 
 <div class="featured yellow">
-    <div class="container">
-    asdfasdfasd fasdfasjdflijaskldfj as
-    dfasdfaskl;dfasdkl;fkasd;lf Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
+    <div class="container youtube_video">
+        <!-- <div class="col l2">
+            <img src="img/1.png" height="256px">
+        </div>
+        <div class="col l2 offset-l2">
     <ul>
         <li>Open Source</li>
         <li>Inspiring</li>
         <li>Fun + Educational</li>
     </ul>
-    </div>
+    </div> -->
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/RtAtM_nAkLA" frameborder="0" allowfullscreen></iframe>
+       </div>
 </div>
 
 <div class="offwhite container">
 <h3>About</h3>
 <p>Flappy Arm is a team based game in which a team of players controls joints on a robotic arm to cooperatively pick up and move objects. The aim of Flappy Arm is to inspire and educate younger students about the multi-disciplinary effort required to create similar real world robots and systems.
     <ul>
-        <li>Remote controlled surgical arms</li>
-        <li>Remote controlled rescue robots / systems</li>
-        <li>Education through demonstrations</li>
-        <li>An art installation</li>
+        <li><b>Remote controlled surgical arms</b> - </li>
+        <li><b>Remote controlled rescue robots / systems</b> - </li>
+        <li><b>Education through demonstrations</b> - </li>
+        <li><b>An art installation</b> - Standalone </li>
     </ul>
 </p>
+
+<article>
+<h3>Technology and Components</h3>
+<p>
+    The technology stack and components/design used with FlappyArm 
+    attempts to make the project as economically viable and beginner
+    friendly as possible. The following points underline key features and
+    the reason for their selection:
+</p>
+    <ul>
+        <li><b>Open Source Arm Design</b> - The project utilises the 
+        <a href="http://www.thingiverse.com/thing:2433">7 Servo 6DOF Robotic Arm</a>.
+        The arm is extremely versatile and can be produced for around $50 from
+        a multitude of materials (ply, mdf, plastic, etc.)
+
+        </li>
+        <li><b>Raspberry PI</b> - The Raspberry PI is designed to be
+            a cheap, disposable and easy to use computer and thus FlappyArm
+            uses it to lower the economic threshold to robotics and control.
+        </li>
+        <li><b>Python 3</b> - A further advantage to using Python is
+        that it comes pre installed on all Raspberry PI devices, removing
+        the complex install process that can be daunting to beginners.
+        Lastly using Python 3 allows for testing and development to be done
+        rapidly, rather than having to wait for the program to compile or
+        rewrite inbuilt functions in a language like C.
+    </li>
+        <li><b>Flask Web Framework</b> - The Flask webframework provides an
+            easier entry into webdevelopment than other comparable
+            Python frameworks such as Django which has higher levels
+            of abstraction. Ideally, we believe Flask will expose young
+            students to concepts such as routing and template rendering and
+            not seem as daunting as other frameworks.
+        </li>
+        <li><b>HTML/CSS</b> - Using HTML and CSS provides an easier entry into
+            GUI design and development as opposed to traditional GUI libraries
+            such as Tcl/Tk and Qt which can be duanting as a beginner. 
+
+        </li>
+    </ul>
+</article>
+
+
 <h3>Contact</h3>
-<p>If you would like to contact us about FlappyArm or would like it demoed in South East Queensland don't hesitate to <a href="mailto:gagalug13@gmail.com">email me.</a></p>
+<p>If you would like to contact us about FlappyArm for more information,
+    for a demonstration at your school or for any other reason, don't hesitate
+    to <a href="mailto:gagalug13@gmail.com">email us.</a></p>
 </div>
 
 
