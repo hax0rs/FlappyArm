@@ -69,9 +69,9 @@ def root(controllerID=None):
         0: "Base",
         1: "Shoulder",
         2: "Elbow",
-        3: "Wrist Rotation",
+        3: "Elbow Rotation",
         4: "Wrist",
-        5: "Pincer Rotation",
+        5: "Wrist Rotation",
         6: "Pincer"
     }
     if (controllerID in controller_name):
