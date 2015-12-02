@@ -34,7 +34,7 @@ Git Access
 Licensing and Copyright:
 ------------------------
 
-	Copyright 2015 Dragan Marjanovic and Joshua Riddell.
+	 Please see the file called LICENSE.
 _____________________________________________________________
 
 
