@@ -58,8 +58,7 @@ under main-controller.
 
 ## Contribute
 
-If you would like to contribute to the project, you can find it on GitHub
-at: (https://github.com/hax0rs/FlappyArm)[https://github.com/hax0rs/FlappyArm]
+If you would like to contribute to the project, [you can find it on GitHub.](https://github.com/hax0rs/FlappyArm)
 
 
 ## Licensing and Copyright
