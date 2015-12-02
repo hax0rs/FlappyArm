@@ -67,5 +67,5 @@ If you would like to contribute to the project, [you can find it on GitHub.](htt
 
 ## Licensing and Copyright
 
-Flappy are is licensed under the MIT license. For more information,
+FlappyArm is licensed under the MIT license. For more information,
 refer to LICENSE.
