@@ -22,6 +22,10 @@ can be controlled using the slider on the webpage. Only 1
 slider is provided on the webpage, as only 1 joint is to 
 be controlled by 1 user.
 
+
+![Main control interface for Flappyarm](https://raw.githubusercontent.com/hax0rs/FlappyArm/master/img/control_interface.png "Main Control Interface")
+
+
 The key features of the control interface are:
 
 * Allows users to control a joint through a mobile optimise web interface
@@ -31,7 +35,8 @@ The key features of the control interface are:
 
 ## Robotic Arm
 
-The Robotic Arm is based off the Robotic Arm with 7 Servos by jjshortcut.
+The Robotic Arm is based off the
+[Robotic Arm with 7 Servos by jjshortcut.](http://www.thingiverse.com/thing:2433)
 The arm supports 6 Degrees of Freedome (DOF) through 7 motors allowing a
 maximum of 7 concurrent players.    
 
