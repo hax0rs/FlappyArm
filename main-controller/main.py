@@ -18,8 +18,8 @@ basic_auth = BasicAuth(app)
 socketio = SocketIO(app)
 
 # Connect to Arm
-# arm = ArmInterface()
-# arm.begin_connection()
+arm = ArmInterface()
+arm.begin_connection()
 
 global_list = {}
 
@@ -106,7 +106,7 @@ def handle_json(json):
     :return: None
     """
     if json['id'] in current_players._players:
-        # arm.set_servo(json['id'], json['value'])
+        arm.set_servo(json['id'], json['value'])
         current_players._players[json['id']].update_expiry()
         print ("This is controller: " + str(json['id']))
         print ("The value for this motor is:  " + str(json['value']))
@@ -129,5 +129,6 @@ if __name__ == "__main__":
     if arguments.ip:
         HOST_IP = str(arguments.ip)
     app.secret_key = "change_this_to_something_better"
-    app.run(HOST_IP, threaded=True, debug=True)
+    # app.run(HOST_IP, threaded=True, debug=True)
+    app.run(HOST_IP, threaded=True)
     socketio.run(app)

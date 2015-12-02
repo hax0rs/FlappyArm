@@ -100,11 +100,13 @@ class _ServerThread(threading.Thread):
                 continue
 
             for message in self._queue:
+                print (message)
                 # send the message
                 write_string = ""
                 for i, item in enumerate(message):
+                    print (write_string)
                     write_string += str(item)
-                    if not i == len(message):
+                    if not i == len(message) - 1:
                         write_string += "_"
                 write_string += "|"
                 self.conn.sendall(write_string.encode('utf-8'))

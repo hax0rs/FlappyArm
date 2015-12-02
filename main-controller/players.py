@@ -33,7 +33,7 @@ class Player(object):
     """Manages the data for a player."""
     def __init__(self, ip):
         super(Player, self).__init__()
-        self._update_constant = 20
+        self._update_constant = 1
         self._ip = ip
         self._cookie = self.random_cookie()
         self._expiry = datetime.now() + timedelta(seconds=self._update_constant)
