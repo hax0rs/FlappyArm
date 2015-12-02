@@ -37,8 +37,12 @@ The key features of the control interface are:
 
 The Robotic Arm is based off the
 [Robotic Arm with 7 Servos by jjshortcut.](http://www.thingiverse.com/thing:2433)
-The arm supports 6 Degrees of Freedome (DOF) through 7 motors allowing a
-maximum of 7 concurrent players.    
+It supports 6 Degrees of Freedome (DOF) through 7 motors allowing a
+maximum of 7 concurrent players. Currently the control system has not been
+generalised as to allow any arm to be connected however it is a planned feature.
+If you would like to connect an identical arm ensure that the scripts in the
+'RPI' folder are stored and ran on the Raspberry Pi that is the main controller
+of the arm.    
 
 
 ## Installation
