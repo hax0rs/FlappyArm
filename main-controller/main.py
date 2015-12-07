@@ -11,7 +11,7 @@ app = Flask(__name__, static_folder="static")
 socketio = SocketIO(app)
 
 # Connect to Arm
-arm = ArmInterface()
+arm = ArmInterface(debug=True)
 arm.begin_connection()
 
 

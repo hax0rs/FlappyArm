@@ -10,18 +10,23 @@ PORT = 12345  # port for communications with RPi
 
 class ArmInterface(object):
     """High level class used to send commands to the arm."""
-    def __init__(self):
+    def __init__(self, debug=False):
         """Initialises server and arm kinematics classes."""
-        self.server = _ServerThread(self)
-        self.kinematics = _Kinematics(self)
+        self.debug = debug
+        if self.debug:
+            self._server = _DebugServer()
+        else:
+            self._server = _ServerThread()
+
+        self._kinematics = _Kinematics()
 
         # self.position = [0 for x in range(len(_Kinematics.load_arm_config()))]
 
     def begin_connection(self):
         """Begins a connection to the RPi on a separate thread."""
-        self.server.connect()
+        self._server.connect()
         self.reset_arm()  # reset arm on connection to lock all joints
-        self.server.start()
+        self._server.start()
 
     def set_servo(self, num, percentage):
         """Sets the value of a servo.
@@ -33,13 +38,13 @@ class ArmInterface(object):
         """
         percentage = int(percentage)
         num = int(num)
-        self._send_command(self.kinematics.get_command(num, percentage))
+        self._send_command(self._kinematics.get_command(num, percentage))
 
     def reset_arm(self):
         """Resets arm to all zero points."""
         servo_commands = []
         for i in range(len(_Kinematics.load_arm_config())):
-            servo_commands.extend(self.kinematics.get_command(i, 0))
+            servo_commands.extend(self._kinematics.get_command(i, 0))
 
         self._send_command(servo_commands)
 
@@ -49,9 +54,9 @@ class ArmInterface(object):
         Arguments:
         command -- consists of "[pin]_[pulse]" to send to the arm (str)
         """
-        self.server.lock.acquire()
-        self.server.queue.extend(command)
-        self.server.lock.release()
+        self._server.lock.acquire()
+        self._server.queue.extend(command)
+        self._server.lock.release()
 
         # for num, percentage in command:
         #     self.position[num] = percentage
@@ -62,12 +67,40 @@ class ArmInterface(object):
         # return self.position
 
 
+class _DebugServer(threading.Thread):
+    """Thread used for debugging which does not need a RPi present"""
+    def __init__(self):
+        super().__init__()
+        self.lock = threading.Lock()
+        self.queue = []
+        self._queue = []
+
+    def connect(self):
+        print("Connected to debug server.")
+
+    def run(self):
+        print("Debug server loop started.")
+        while True:
+            self.lock.acquire()
+            if self.queue != []:
+                self._queue.extend(self.queue)
+                self.queue = []
+                self.lock.release()
+            else:
+                self.lock.release()
+                sleep(0.005)
+                continue
+
+            for message in self._queue:
+                print("Debug server sent: " + str(message))
+            self._queue = []
+
+
 class _ServerThread(threading.Thread):
     """Thread which sends commands to the RPi"""
-    def __init__(self, parent):
+    def __init__(self):
         """Creates lock, socket and queue instances."""
         super().__init__()
-        self.parent = parent
         self.lock = threading.Lock()
 
         self.sock = sk.socket(sk.AF_INET, sk.SOCK_STREAM)
@@ -114,7 +147,7 @@ class _ServerThread(threading.Thread):
 
 class _Kinematics(object):
     """ Handles command validity checking and percent to pulse conversion."""
-    def __init__(self, parent):
+    def __init__(self):
         """Loads arm configuration and calculates conversion multipliers for
         percentage to pulsewidth conversion.
         """
