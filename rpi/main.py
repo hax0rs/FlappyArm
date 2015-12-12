@@ -48,10 +48,10 @@ class Client(object):
                 sleep(1)
                 print("Trying again...")
 
+        self.sock.sendall("RPi client initialised".encode('utf-8'))
+
         self.network_thread.start()
         self.servo_writer.control_loop()
-
-        self.sock.sendall("RPi client initialised".encode('utf-8'))
 
     def update_net_settings(self, usr_args):
         """ Updates network settings.
