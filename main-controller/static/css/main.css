@@ -90,6 +90,7 @@ input[type=range] {
 input[type="range" i] {
     -webkit-appearance: slider-horizontal;
     padding: initial;
+    height: 60px;
     border: initial;
     margin: 2px;
     color: black;
