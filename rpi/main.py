@@ -78,7 +78,10 @@ class Client(object):
         if usr_args.ip is not None:
             ip = usr_args.ip
         if usr_args.port is not None:
-            port = int(usr_args.port)
+            try:
+                port = int(usr_args.port)
+            except:
+                pass
 
         msg_strings = []
         if not ip:

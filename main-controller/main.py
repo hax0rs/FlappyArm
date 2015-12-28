@@ -74,9 +74,23 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 
+def update_net_settings(arguments):
+    ip = None
+    port = None
+
+    if arguments.ip is not None:
+        
+
+    if arguments.port is not None:
+        pass
+
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-ip', help='The host computer IP address.')
+    parser.add_argument('-ip', help='the desired ip address of the webserver')
+    parser.add_argument('-port', help='the port for connection to the arm')
+    parser.add_argument('-d', help='enables arm debug mode', action="store_true")
     arguments = parser.parse_args()
     HOST_IP = "localhost"
     if arguments.ip:
