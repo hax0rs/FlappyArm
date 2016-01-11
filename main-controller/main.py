@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from flask import Flask, session, redirect, escape, request, render_template, url_for
+from flask import Flask, session, redirect, escape, request, render_template, url_for, Response
 from flask_socketio import SocketIO
 import os
 import argparse
@@ -19,7 +19,7 @@ socketio = SocketIO(app)
 
 # Connect to Arm
 arm = ArmInterface()
-arm.begin_connection()
+# arm.begin_connection()
 
 global_list = {}
 
@@ -32,6 +32,26 @@ def home():
     return(render_template('home.html'))
 
 
+@app.route("/connect", methods = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'])
+@app.route("/connect/", methods = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'])
+def connect():
+    # print("here")
+    if request.method == 'GET':
+        return "ECHO: GET\n"
+
+    elif request.method == 'POST':
+        content = request.json
+        print (content)
+        return ("ECHO: POST\n")
+
+
+
+
+
+    elif request.method == 'PUT':
+        return "ECHO: PUT\n"
+    # print ("Connected.")
+    # return ('Connected')
 
 @app.route("/play")
 @app.route("/play/")
