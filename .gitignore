@@ -5,3 +5,5 @@ rpi/__pycache__/net_com.cpython-34.pyc
 main-controller/__pycache__/arm_interface.cpython-34.pyc
 main-controller/cmd.bat
 *.pyc
+main-controller/venv/
+__pycache__/
