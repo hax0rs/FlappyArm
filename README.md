@@ -53,10 +53,8 @@ under main-controller.
 
 ### Dependencies / Requirements
 
-* Python 3
-* Flask
-* flask-SocketIO
-* pip3 install Flask-BasicAuth
+Please refer to `requirements.txt` in `backend/` and `rpi/` for a list of
+packages which can be installed using `pip3 install -r requirements.txt`.
 
 
 
