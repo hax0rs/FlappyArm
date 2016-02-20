@@ -18,8 +18,8 @@ basic_auth = BasicAuth(app)
 socketio = SocketIO(app)
 
 # Connect to Arm
-arm = ArmInterface()
-arm.begin_connection()
+#arm = ArmInterface()
+#arm.begin_connection()
 
 global_list = {}
 
