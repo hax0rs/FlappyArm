@@ -1,5 +1,6 @@
 use <bottom_base_plate.scad>
 use <top_base_plate.scad>
+use <middle_base_plate.scad>
 use <side_plate.scad>
 
 height_offset = 10;
@@ -29,6 +30,10 @@ module base(plate, tk, diameter, servo, num_plates, air_holes_num) {
                 // if odd
                 side_plate(tk, side_plate_width, plate_height, num_plates, air_holes_num, servo[5]);
             }
+        }
+        
+        translate([0, 0, servo[5]]) rotate([0,0,360/num_plates/2]) {
+            middle_base_plate(tk, num_plates, side_plate_diameter_offset*diameter);
         }
         
         translate([0, 0, plate_height]) {
