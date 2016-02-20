@@ -7,5 +7,5 @@ main-controller/cmd.bat
 *.pyc
 main-controller/venv/
 __pycache__/
-
+venv/
 *.swp
