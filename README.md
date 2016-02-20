@@ -23,7 +23,7 @@ slider is provided on the webpage, as only 1 joint is to
 be controlled by 1 user.
 
 
-![Main control interface for Flappyarm](https://raw.githubusercontent.com/hax0rs/FlappyArm/master/img/control_interface.png "Main Control Interface")
+![Main control interface for Flappyarm](https://raw.githubusercontent.com/hax0rs/FlappyArm/master/docs/img/control_interface.png "Main Control Interface")
 
 
 The key features of the control interface are:
