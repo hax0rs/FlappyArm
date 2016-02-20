@@ -5,6 +5,6 @@ python:
     - "3.5"
 
 install:
-    -  "pip3 install -r main-controller/requirements.txt"
+    -  "pip3 install -r backend/requirements.txt"
 
 script: nosetests 
