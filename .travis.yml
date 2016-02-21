@@ -8,3 +8,11 @@ install:
     -  "pip3 install -r backend/requirements.txt"
 
 script: nosetests 
+
+# Deployment
+deploy:
+  provider: releases
+  # api_key: "GITHUB OAUTH TOKEN"
+  skip_cleanup: true
+  on:
+    tags: true
