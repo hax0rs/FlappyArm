@@ -6,7 +6,7 @@ air_holes_length = 0.6; // percentage of total length for holes
 air_holes_width = 0.6; // percentage of plate width for holes
 air_holes_thickness = 3; // width of holes
 
-module side_plate(tk, width, height, num_plates, air_holes_num, servo_height) {
+module side_plate(tk, width, height, num_plates, air_holes_num, servo_height, slot_width, slot_translation, bolt_diameter) {
     height = height - tk;
     air_holes_num = air_holes_num - 1;
     linear_extrude(tk) difference() {
@@ -22,9 +22,9 @@ module side_plate(tk, width, height, num_plates, air_holes_num, servo_height) {
                 square([air_holes_thickness, height*air_holes_length], center = true);
             }
         } else {
-            translate([width/2, servo_height, 0]) bolt_slot(tk, 5, 10, 2.5);
+            translate([width/2, servo_height, 0]) bolt_slot(tk, slot_width, slot_translation, bolt_diameter);
         }
     }
 }
 
-side_plate(3, 90, 70, 8, 0, 40);
+side_plate(3, 30.9974, 51, 8, 0, 27.5, 7.74934, 7.74934, 2.5);
