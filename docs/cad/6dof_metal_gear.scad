@@ -13,4 +13,6 @@ base_diameter = 90;
 
 $fn = 100;
 
-base(plans, tk, base_diameter, servo_light, 8, 3);
+bolt_diameter = 3;
+
+base(plans, tk, base_diameter, servo_light, 8, 3, bolt_diameter);

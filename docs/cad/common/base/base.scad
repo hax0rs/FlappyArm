@@ -6,7 +6,7 @@ use <side_plate.scad>
 height_offset = 10;
 side_plate_diameter_offset = 0.9; // percentage offset of interior plates
 
-module base(plate, tk, diameter, servo, num_plates, air_holes_num) {
+module base(plate, tk, diameter, servo, num_plates, air_holes_num, bolt_diameter) {
     if (plate) {
         projection() {
             bottom_base_plate(tk, diameter);
@@ -25,20 +25,20 @@ module base(plate, tk, diameter, servo, num_plates, air_holes_num) {
             rotate([90,0,0])
             if (floor(i/2) == i/2) {
                 // if even
-                side_plate(tk, side_plate_width, plate_height, num_plates, 0, servo[5]);
+                side_plate(tk, side_plate_width, plate_height, num_plates, 0, servo[5] + tk/2);
             } else {
                 // if odd
                 side_plate(tk, side_plate_width, plate_height, num_plates, air_holes_num, servo[5]);
             }
         }
         
-        translate([0, 0, servo[5]]) rotate([0,0,360/num_plates/2]) {
-            middle_base_plate(tk, num_plates, side_plate_diameter_offset*diameter);
+        translate([0, 0, servo[5] + tk]) {
+            middle_base_plate(tk, num_plates, side_plate_diameter_offset*diameter, servo[1], servo[3], servo[6], servo[4], bolt_diameter);
         }
         
-        translate([0, 0, plate_height]) {
-            top_base_plate(tk, diameter);
-        }
+//        translate([0, 0, plate_height]) {
+//            top_base_plate(tk, diameter);
+//        }
     }
 }
 
