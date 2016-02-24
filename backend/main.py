@@ -131,4 +131,4 @@ if __name__ == "__main__":
     app.secret_key = "change_this_to_something_better"
     # app.run(HOST_IP, threaded=True, debug=True)
     app.run(HOST_IP, threaded=True)
-    socketio.run(app)
+#    socketio.run(app)
